@@ -137,7 +137,7 @@ http.createServer(function (req, res) {
         //return;
     }
     else if(pedido.tipo === "registrarMonitoria"){
-        console.log("pedido" + pedido);
+        console.log(pedido);
         var index = rudeDB.monitoria.length;
         rudeDB.monitoria[index] = {};
         rudeDB.monitoria[index] = pedido.monitoria;
@@ -163,9 +163,18 @@ http.createServer(function (req, res) {
         responder(res, resposta);
         return;
     }
-    else if(pedido.tipo === "enviarEmail"){
 
-    }
+    else if(pedido.tipo === "enviarEmail"){
+         var conteudo = {
+                 to: pedido.monitoria.emailprof,
+                 subject: 'MONI: registros de monitoria',
+                 html: pedido.monitoria.corpo
+         };
+        sendMail(nodemailer, conteudo);
+
+        resposta.ok = true;
+
+   }
     else if(pedido.tipo === "confirmacao"){
         var html = "<h1>Link zuado</h1>";
         for (var i = 0; i < rudeDB.userNaoAutenticado.length; i++) {
