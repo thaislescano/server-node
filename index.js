@@ -109,7 +109,7 @@ http.createServer(function (req, res) {
         for(var i = 0; i < rudeDB.user.length; i++){
             if(pedido.user.email === rudeDB.user[i].email && pedido.user.senha === rudeDB.user[i].senha){
                 resposta.existe = true;
-                resposta.user = JSON.parse(JSON.stringfy(rudeDB.user[i]));
+                resposta.user = JSON.parse(JSON.stringify(rudeDB.user[i]));
                 resposta.user.senha = "";
                 responder(res, resposta);
                 return;
@@ -134,7 +134,7 @@ http.createServer(function (req, res) {
         return;
     }
     else if(pedido.tipo === "registrarMonitoria"){
-        console.log(pedido);
+        console.log("pedido" + pedido);
         var index = rudeDB.monitoria.length;
         rudeDB.monitoria[index] = {};
         rudeDB.monitoria[index] = pedido.monitoria;
