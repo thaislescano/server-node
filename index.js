@@ -165,14 +165,15 @@ http.createServer(function (req, res) {
     }
 
     else if(pedido.tipo === "enviarEmail"){
-         var conteudo = {
-                 to: pedido.monitoria.emailprof,
-                 subject: 'MONI: registros de monitoria',
-                 html: pedido.monitoria.corpo
-         };
-        sendMail(nodemailer, conteudo);
+          var conteudo = {
+                  to: pedido.monitoria.emailprof,
+                  subject: 'MONI: registros de monitoria',
+                  html: pedido.monitoria.corpo
+      };
+         sendMail(nodemailer, conteudo);
 
-        resposta.ok = true;
+         resposta.ok = true;
+
 
    }
     else if(pedido.tipo === "confirmacao"){
