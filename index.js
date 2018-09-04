@@ -61,7 +61,7 @@ http.createServer(function (req, res) {
             rudeDB.userNaoAutenticado[index].user = pedido.user;
             rudeDB.userNaoAutenticado[index].chave = gerarChave();
             var conteudo = {
-                to: "thaislescano@hotmail.com",//pedido.user.email,
+                to: pedido.user.email,
                 subject: 'MONI: confimarção de email!',
                 html: '<h1>Seja bem-vindo ao Moni</h1> <p>Clique no link a baixo para confirmar seu email <br> <a href="http://localhost:8010/' + encodeURIComponent(JSON.stringify({tipo:'confirmacao', chave: rudeDB.userNaoAutenticado[index].chave})) + '">Confirmar Email</a></p>' //pode ser html no lugar de text dai só colocar um '<h1>hello world</h1> da vida
             };
@@ -118,20 +118,23 @@ http.createServer(function (req, res) {
     }
     else if(pedido.tipo === "pesquisar"){//devolve array com os monitores da disciplina X
         console.log(pedido);
-        resposta = [];
-        if(!pedido.disciplina && pedido.semestre){
+        console.log(rudeDB.user);
+        resposta = {length:0};
+        if(!pedido.disciplina || !isNaN(pedido.semestre)){
+            console.log("entrou no primeiro if");
             responder(res, resposta);
             return;
         }
         for(var i = 0; i < rudeDB.user.length; i++){
+        
             if(pedido.disciplina === rudeDB.user[i].disciplina && rudeDB.user[i].monitor && rudeDB.user[i].semestre > pedido.semestre){
-                var index = resposta.length;
-                resposta[index] = rudeDB.user[i];
+                var index = resposta.length++;
+                resposta[index] = JSON.parse(JSON.stringify(rudeDB.user[i]));
                 resposta[index].senha = "";
             }
         }
-        responder(res, resposta);
-        return;
+        //responder(res, resposta);
+        //return;
     }
     else if(pedido.tipo === "registrarMonitoria"){
         console.log("pedido" + pedido);
